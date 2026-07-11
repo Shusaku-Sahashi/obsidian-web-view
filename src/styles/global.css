@@ -69,14 +69,29 @@ a {
   padding: 1em;
   border-radius: 6px;
   overflow-x: auto;
-  font-size: 0.9em;
+  font-size: 1.05em;
+  line-height: 1.6;
 }
 
 .prose :not(pre) > code {
   padding: 0.15em 0.4em;
   border-radius: 4px;
   background: var(--code-bg);
-  font-size: 0.9em;
+  font-size: 0.95em;
+}
+
+.code-filename {
+  margin: 1em 0 0;
+  padding: 0.4em 1em;
+  border-radius: 6px 6px 0 0;
+  background: #24292e;
+  color: #c9d1d9;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.85em;
+}
+.code-filename + pre {
+  margin-top: 0;
+  border-radius: 0 0 6px 6px;
 }
 
 .prose table {
