@@ -1,0 +1,13 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostList from '../components/PostList.astro';
+
+const posts = (await getCollection('posts')).sort(
+  (a, b) => b.data.created.getTime() - a.data.created.getTime(),
+);
+---
+
+<BaseLayout title="Obsidian Notes">
+  <PostList posts={posts} />
+</BaseLayout>

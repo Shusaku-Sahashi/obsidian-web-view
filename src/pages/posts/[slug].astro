@@ -1,0 +1,56 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import TagBadge from '../../components/TagBadge.astro';
+import { getNoteBySlug } from '../../lib/notes-index';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const title = getNoteBySlug(post.id)?.displayTitle ?? post.id;
+const created = post.data.created;
+---
+
+<BaseLayout title={title}>
+  <article class="post">
+    <header>
+      <time datetime={created.toISOString()}>
+        {created.toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' })}
+      </time>
+      <h1>{title}</h1>
+      {post.data.tags.length > 0 && (
+        <div class="tags">
+          {post.data.tags.map((tag) => <TagBadge tag={tag} />)}
+        </div>
+      )}
+    </header>
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  time {
+    font-size: 0.85rem;
+    color: var(--muted-color);
+  }
+  h1 {
+    margin: 0.3rem 0 0;
+    font-size: 1.7rem;
+    line-height: 1.5;
+  }
+  .tags {
+    margin-top: 0.6rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .prose {
+    margin-top: 2rem;
+  }
+</style>

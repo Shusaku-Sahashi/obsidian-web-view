@@ -1,0 +1,110 @@
+@import 'rehype-callouts/theme/obsidian';
+
+:root {
+  --content-width: 760px;
+  --text-color: #333;
+  --muted-color: #888;
+  --link-color: #2962ae;
+  --border-color: #e5e5e5;
+  --header-bg: #fff;
+  --tag-bg: #f0f3f7;
+  --tag-bg-hover: #dfe7f0;
+  --tag-color: #4a6785;
+  --code-bg: #f6f8fa;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', system-ui, -apple-system, 'Segoe UI',
+    'Noto Sans JP', sans-serif;
+  line-height: 1.8;
+  color: var(--text-color);
+  background: #fff;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+a {
+  color: var(--link-color);
+}
+
+/* ---- 記事本文 ---- */
+.prose {
+  overflow-wrap: break-word;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4 {
+  margin: 2em 0 0.6em;
+  line-height: 1.5;
+}
+
+.prose h2 {
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.prose img,
+.prose video {
+  max-width: 100%;
+  height: auto;
+}
+
+.prose blockquote {
+  margin: 1em 0;
+  padding: 0.2em 1em;
+  border-left: 4px solid var(--border-color);
+  color: var(--muted-color);
+}
+
+.prose pre {
+  padding: 1em;
+  border-radius: 6px;
+  overflow-x: auto;
+  font-size: 0.9em;
+}
+
+.prose :not(pre) > code {
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  background: var(--code-bg);
+  font-size: 0.9em;
+}
+
+.prose table {
+  border-collapse: collapse;
+  display: block;
+  overflow-x: auto;
+}
+
+.prose th,
+.prose td {
+  border: 1px solid var(--border-color);
+  padding: 0.4em 0.8em;
+}
+
+/* ---- Obsidian wikilink ---- */
+.wikilink-unresolved {
+  color: var(--muted-color);
+  border-bottom: 1px dashed var(--muted-color);
+  cursor: default;
+}
+
+/* ---- Obsidian embed（添付ファイルなし） ---- */
+.embed-missing {
+  display: inline-block;
+  padding: 0.2em 0.8em;
+  border: 1px dashed #d0a94e;
+  border-radius: 4px;
+  background: #fdf6e3;
+  color: #8a6d1d;
+  font-size: 0.9em;
+}

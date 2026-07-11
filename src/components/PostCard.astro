@@ -1,0 +1,55 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import TagBadge from './TagBadge.astro';
+import { getNoteBySlug } from '../lib/notes-index';
+
+interface Props {
+  post: CollectionEntry<'posts'>;
+}
+
+const { post } = Astro.props;
+const title = getNoteBySlug(post.id)?.displayTitle ?? post.id;
+const created = post.data.created;
+---
+
+<article class="post-card">
+  <time datetime={created.toISOString()}>
+    {created.toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' })}
+  </time>
+  <h2><a href={`/posts/${post.id}/`}>{title}</a></h2>
+  {post.data.tags.length > 0 && (
+    <div class="tags">
+      {post.data.tags.map((tag) => <TagBadge tag={tag} />)}
+    </div>
+  )}
+</article>
+
+<style>
+  .post-card {
+    padding: 1.4rem 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+  time {
+    font-size: 0.85rem;
+    color: var(--muted-color);
+  }
+  h2 {
+    margin: 0.3rem 0 0;
+    font-size: 1.25rem;
+    line-height: 1.5;
+  }
+  h2 a {
+    color: var(--text-color);
+    text-decoration: none;
+  }
+  h2 a:hover {
+    color: var(--link-color);
+    text-decoration: underline;
+  }
+  .tags {
+    margin-top: 0.6rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+</style>
