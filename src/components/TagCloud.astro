@@ -13,7 +13,7 @@ const tags = [...counts.entries()]
   .sort((a, b) => b.count - a.count || a.tag.localeCompare(b.tag));
 ---
 
-<aside class="tag-cloud">
+<nav class="tag-cloud">
   <h2>タグ</h2>
   {tags.length === 0 ? (
     <p class="empty">タグはまだありません</p>
@@ -27,7 +27,7 @@ const tags = [...counts.entries()]
       ))}
     </ul>
   )}
-</aside>
+</nav>
 
 <style>
   .tag-cloud {

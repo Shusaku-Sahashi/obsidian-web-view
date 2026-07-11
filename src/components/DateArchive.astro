@@ -1,0 +1,105 @@
+---
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('posts');
+
+interface MonthCount {
+  month: number;
+  count: number;
+}
+interface YearGroup {
+  year: number;
+  months: MonthCount[];
+}
+
+const counts = new Map<number, Map<number, number>>();
+for (const post of posts) {
+  const year = post.data.created.getFullYear();
+  const month = post.data.created.getMonth() + 1;
+  if (!counts.has(year)) counts.set(year, new Map());
+  const monthMap = counts.get(year)!;
+  monthMap.set(month, (monthMap.get(month) ?? 0) + 1);
+}
+
+const years: YearGroup[] = [...counts.entries()]
+  .map(([year, monthMap]) => ({
+    year,
+    months: [...monthMap.entries()]
+      .map(([month, count]) => ({ month, count }))
+      .sort((a, b) => b.month - a.month),
+  }))
+  .sort((a, b) => b.year - a.year);
+---
+
+<nav class="date-archive">
+  <h2>アーカイブ</h2>
+  {years.length === 0 ? (
+    <p class="empty">記事がありません</p>
+  ) : (
+    <ul class="year-list">
+      {years.map(({ year, months }) => (
+        <li>
+          <div class="year-label">{year}年</div>
+          <ul class="month-list">
+            {months.map(({ month, count }) => (
+              <li>
+                <a href={`/archive/${year}/${String(month).padStart(2, '0')}/`}>{month}月</a>
+                <span class="count">{count}</span>
+              </li>
+            ))}
+          </ul>
+        </li>
+      ))}
+    </ul>
+  )}
+</nav>
+
+<style>
+  .date-archive {
+    font-size: 0.9rem;
+  }
+  h2 {
+    margin: 0 0 0.8rem;
+    font-size: 1rem;
+    color: var(--muted-color);
+  }
+  .empty {
+    color: var(--muted-color);
+  }
+  .year-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+  .year-label {
+    font-weight: 600;
+  }
+  .month-list {
+    list-style: none;
+    margin: 0.3rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  .month-list li {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+  .month-list a {
+    color: var(--link-color);
+    text-decoration: none;
+  }
+  .month-list a:hover {
+    text-decoration: underline;
+  }
+  .count {
+    color: var(--muted-color);
+    font-size: 0.8rem;
+  }
+</style>

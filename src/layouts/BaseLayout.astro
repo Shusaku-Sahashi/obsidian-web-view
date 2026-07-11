@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import TagCloud from '../components/TagCloud.astro';
+import DateArchive from '../components/DateArchive.astro';
 
 interface Props {
   title: string;
@@ -23,7 +24,10 @@ const { title } = Astro.props;
       <div class="content-area">
         <slot />
       </div>
-      <TagCloud />
+      <aside class="sidebar">
+        <TagCloud />
+        <DateArchive />
+      </aside>
     </main>
   </body>
 </html>
@@ -55,17 +59,20 @@ const { title } = Astro.props;
     flex: 1;
     min-width: 0;
   }
-  .site-main > :global(.tag-cloud) {
+  .sidebar {
     width: 200px;
     flex-shrink: 0;
     position: sticky;
     top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
   }
   @media (max-width: 800px) {
     .site-main {
       flex-direction: column;
     }
-    .site-main > :global(.tag-cloud) {
+    .sidebar {
       width: 100%;
       position: static;
     }
