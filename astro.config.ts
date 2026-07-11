@@ -4,6 +4,7 @@ import rehypeCallouts from 'rehype-callouts';
 import { fileURLToPath } from 'node:url';
 import { remarkObsidian } from './src/lib/remark-obsidian';
 import { remarkCardlink } from './src/lib/remark-cardlink';
+import { remarkCodeFilename } from './src/lib/remark-code-filename';
 import { buildWikiLinkResolutionMap } from './src/lib/notes-index';
 import { syncAttachmentsToPublic } from './src/lib/attachments';
 
@@ -14,7 +15,7 @@ const noteLinks = buildWikiLinkResolutionMap();
 export default defineConfig({
   markdown: {
     processor: unified({
-      remarkPlugins: [[remarkObsidian, { noteLinks, attachmentUrls }], remarkCardlink],
+      remarkPlugins: [[remarkObsidian, { noteLinks, attachmentUrls }], remarkCardlink, remarkCodeFilename],
       rehypePlugins: [[rehypeCallouts, { theme: 'obsidian' }]],
     }),
   },
