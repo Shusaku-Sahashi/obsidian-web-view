@@ -3,4 +3,5 @@ node_modules
 dist
 .astro
 public/obsidian-assets
+.obsidian-staging
 .DS_Store

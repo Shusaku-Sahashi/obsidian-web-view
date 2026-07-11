@@ -1,7 +1,7 @@
 @import 'rehype-callouts/theme/obsidian';
 
 :root {
-  --content-width: 760px;
+  --content-width: 980px;
   --text-color: #333;
   --muted-color: #888;
   --link-color: #2962ae;

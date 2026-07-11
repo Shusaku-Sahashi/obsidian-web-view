@@ -1,0 +1,69 @@
+---
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('posts');
+const counts = new Map<string, number>();
+for (const post of posts) {
+  for (const tag of post.data.tags) {
+    counts.set(tag, (counts.get(tag) ?? 0) + 1);
+  }
+}
+const tags = [...counts.entries()]
+  .map(([tag, count]) => ({ tag, count }))
+  .sort((a, b) => b.count - a.count || a.tag.localeCompare(b.tag));
+---
+
+<aside class="tag-cloud">
+  <h2>タグ</h2>
+  {tags.length === 0 ? (
+    <p class="empty">タグはまだありません</p>
+  ) : (
+    <ul>
+      {tags.map(({ tag, count }) => (
+        <li>
+          <a href={`/tags/${encodeURIComponent(tag)}/`}>#{tag}</a>
+          <span class="count">{count}</span>
+        </li>
+      ))}
+    </ul>
+  )}
+</aside>
+
+<style>
+  .tag-cloud {
+    font-size: 0.9rem;
+  }
+  h2 {
+    margin: 0 0 0.8rem;
+    font-size: 1rem;
+    color: var(--muted-color);
+  }
+  .empty {
+    color: var(--muted-color);
+  }
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  li {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+  a {
+    color: var(--link-color);
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  .count {
+    color: var(--muted-color);
+    font-size: 0.8rem;
+  }
+</style>

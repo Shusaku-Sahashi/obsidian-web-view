@@ -23,7 +23,7 @@ const optionalStringList = z
 export const frontmatterSchema = z
   .object({
     created: createdDate,
-    up: z.string().nullable().optional(),
+    up: z.union([z.string(), z.array(z.string())]).nullable().optional(),
     related: z.union([z.string(), z.array(z.string())]).nullable().optional(),
     tags: optionalStringList,
     type: z.string().optional(),

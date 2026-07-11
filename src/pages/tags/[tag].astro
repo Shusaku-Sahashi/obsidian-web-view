@@ -7,8 +7,11 @@ export async function getStaticPaths() {
   const posts = await getCollection('posts');
   const tags = new Set(posts.flatMap((p) => p.data.tags));
   return [...tags].map((tag) => ({
-    params: { tag },
+    // Obsidianの階層タグ（例: "Language/Haskell"）は"/"を含みうるため、
+    // 単一の動的セグメントとして扱えるようencodeURIComponentする
+    params: { tag: encodeURIComponent(tag) },
     props: {
+      tag,
       posts: posts
         .filter((p) => p.data.tags.includes(tag))
         .sort((a, b) => b.data.created.getTime() - a.data.created.getTime()),
@@ -16,8 +19,7 @@ export async function getStaticPaths() {
   }));
 }
 
-const { tag } = Astro.params;
-const { posts } = Astro.props;
+const { tag, posts } = Astro.props;
 ---
 
 <BaseLayout title={`#${tag}`}>

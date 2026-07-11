@@ -2,6 +2,7 @@
 import type { CollectionEntry } from 'astro:content';
 import TagBadge from './TagBadge.astro';
 import { getNoteBySlug } from '../lib/notes-index';
+import { excerptFromBody } from '../lib/excerpt';
 
 interface Props {
   post: CollectionEntry<'posts'>;
@@ -10,6 +11,7 @@ interface Props {
 const { post } = Astro.props;
 const title = getNoteBySlug(post.id)?.displayTitle ?? post.id;
 const created = post.data.created;
+const excerpt = post.body ? excerptFromBody(post.body) : '';
 ---
 
 <article class="post-card">
@@ -17,6 +19,7 @@ const created = post.data.created;
     {created.toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' })}
   </time>
   <h2><a href={`/posts/${post.id}/`}>{title}</a></h2>
+  {excerpt && <p class="excerpt"><a href={`/posts/${post.id}/`}>{excerpt}</a></p>}
   {post.data.tags.length > 0 && (
     <div class="tags">
       {post.data.tags.map((tag) => <TagBadge tag={tag} />)}
@@ -45,6 +48,16 @@ const created = post.data.created;
   h2 a:hover {
     color: var(--link-color);
     text-decoration: underline;
+  }
+  .excerpt {
+    margin: 0.6rem 0 0;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--muted-color);
+  }
+  .excerpt a {
+    color: inherit;
+    text-decoration: none;
   }
   .tags {
     margin-top: 0.6rem;
