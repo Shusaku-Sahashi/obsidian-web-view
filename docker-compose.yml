@@ -1,0 +1,19 @@
+services:
+  obsidian-webview:
+    build: .
+    ports:
+      - "4321:4321"
+    volumes:
+      # 左側をcontentsシンボリックリンクの実際の参照先に合わせてください
+      # (readlink contents で確認できます)
+      - "/Users/sahashi/Obsidian/Ideastorage:/app/contents:ro"
+      # site.config.yamlを再ビルドせず編集できるようにするため
+      - "./site.config.yaml:/app/site.config.yaml:ro"
+      # 差分コピーのキャッシュをコンテナ再起動をまたいで保持する（起動を高速化）
+      - obsidian-staging:/app/.obsidian-staging
+      - obsidian-assets:/app/public/obsidian-assets
+    restart: unless-stopped
+
+volumes:
+  obsidian-staging:
+  obsidian-assets:

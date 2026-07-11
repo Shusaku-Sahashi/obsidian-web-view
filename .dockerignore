@@ -1,0 +1,8 @@
+contents
+node_modules
+dist
+.astro
+public/obsidian-assets
+.obsidian-staging
+.git
+.DS_Store
