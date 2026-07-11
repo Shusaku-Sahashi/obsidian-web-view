@@ -108,3 +108,73 @@ a {
   color: #8a6d1d;
   font-size: 0.9em;
 }
+
+/* ---- Obsidian Auto Card Link ---- */
+.cardlink {
+  display: flex;
+  align-items: stretch;
+  margin: 1em 0;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--text-color);
+  transition: border-color 0.15s ease;
+}
+.cardlink:hover {
+  border-color: var(--link-color);
+}
+.cardlink-content {
+  flex: 1;
+  min-width: 0;
+  padding: 0.8em 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.35em;
+}
+.cardlink-title {
+  font-weight: 600;
+  font-size: 0.95em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.cardlink-description {
+  font-size: 0.85em;
+  color: var(--muted-color);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.cardlink-host {
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  font-size: 0.8em;
+  color: var(--muted-color);
+}
+.cardlink-favicon {
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+}
+.cardlink-thumb {
+  flex-shrink: 0;
+  width: 160px;
+}
+.cardlink-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+@media (max-width: 500px) {
+  .cardlink-thumb {
+    width: 100px;
+  }
+}

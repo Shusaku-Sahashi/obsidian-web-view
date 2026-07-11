@@ -3,6 +3,7 @@ import { unified } from '@astrojs/markdown-remark';
 import rehypeCallouts from 'rehype-callouts';
 import { fileURLToPath } from 'node:url';
 import { remarkObsidian } from './src/lib/remark-obsidian';
+import { remarkCardlink } from './src/lib/remark-cardlink';
 import { buildWikiLinkResolutionMap } from './src/lib/notes-index';
 import { syncAttachmentsToPublic } from './src/lib/attachments';
 
@@ -13,7 +14,7 @@ const noteLinks = buildWikiLinkResolutionMap();
 export default defineConfig({
   markdown: {
     processor: unified({
-      remarkPlugins: [[remarkObsidian, { noteLinks, attachmentUrls }]],
+      remarkPlugins: [[remarkObsidian, { noteLinks, attachmentUrls }], remarkCardlink],
       rehypePlugins: [[rehypeCallouts, { theme: 'obsidian' }]],
     }),
   },
