@@ -1,0 +1,12 @@
+# obsidian:// リンク生成に使うVault名。
+# Obsidianの左上（Vault切り替えメニュー）に表示されている名前をそのまま入力してください。
+vaultName: "Ideastorage_bk"
+
+# 一覧表示したいフォルダ（vaultルート = contents/ からの相対パス）。
+# vaultルート直下をそのまま対象にする場合は空文字のままでOK。
+targetFolder: "Efforts/Activity Notes"
+
+# 画像・動画などの添付ファイル置き場（vaultルートからの相対パス）。
+# build時にここからpublic/obsidian-assets/へ差分コピーする。
+# 添付ファイルの同期が不要なら空文字のままでOK。
+attachmentsDir: "Atlas/Untitle/Images"
