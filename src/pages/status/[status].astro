@@ -1,0 +1,40 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostList from '../../components/PostList.astro';
+import { statusSlug } from '../../lib/status';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  const groups = new Map<string, { label: string; posts: typeof posts }>();
+  for (const post of posts) {
+    const status = post.data.status;
+    if (!status) continue;
+    const slug = statusSlug(status);
+    const group = groups.get(slug);
+    if (group) group.posts.push(post);
+    else groups.set(slug, { label: status, posts: [post] });
+  }
+  return [...groups.entries()].map(([slug, { label, posts }]) => ({
+    params: { status: slug },
+    props: {
+      label,
+      posts: posts.sort((a, b) => b.data.created.getTime() - a.data.created.getTime()),
+    },
+  }));
+}
+
+const { label, posts } = Astro.props;
+---
+
+<BaseLayout title={label}>
+  <h1 class="status-heading">{label}</h1>
+  <PostList posts={posts} />
+</BaseLayout>
+
+<style>
+  .status-heading {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+</style>

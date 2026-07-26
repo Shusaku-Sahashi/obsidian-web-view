@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import TagBadge from './TagBadge.astro';
+import StatusBadge from './StatusBadge.astro';
 import { getNoteBySlug } from '../lib/notes-index';
 import { excerptFromBody } from '../lib/excerpt';
 
@@ -20,8 +21,9 @@ const excerpt = post.body ? excerptFromBody(post.body) : '';
   </time>
   <h2><a href={`/posts/${post.id}/`}>{title}</a></h2>
   {excerpt && <p class="excerpt"><a href={`/posts/${post.id}/`}>{excerpt}</a></p>}
-  {post.data.tags.length > 0 && (
+  {(post.data.status || post.data.tags.length > 0) && (
     <div class="tags">
+      {post.data.status && <StatusBadge status={post.data.status} />}
       {post.data.tags.map((tag) => <TagBadge tag={tag} />)}
     </div>
   )}

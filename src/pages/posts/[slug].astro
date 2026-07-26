@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import TagBadge from '../../components/TagBadge.astro';
+import StatusBadge from '../../components/StatusBadge.astro';
 import { getNoteBySlug, obsidianFileUri } from '../../lib/notes-index';
 
 export async function getStaticPaths() {
@@ -25,6 +26,7 @@ const created = post.data.created;
       </time>
       <h1>{title}</h1>
       <div class="header-row">
+        {post.data.status && <StatusBadge status={post.data.status} />}
         {post.data.tags.length > 0 && (
           <div class="tags">
             {post.data.tags.map((tag) => <TagBadge tag={tag} />)}

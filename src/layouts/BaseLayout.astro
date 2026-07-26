@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import TagCloud from '../components/TagCloud.astro';
+import StatusList from '../components/StatusList.astro';
 import DateArchive from '../components/DateArchive.astro';
 
 interface Props {
@@ -26,6 +27,7 @@ const { title } = Astro.props;
       </div>
       <aside class="sidebar">
         <TagCloud />
+        <StatusList />
         <DateArchive />
       </aside>
     </main>

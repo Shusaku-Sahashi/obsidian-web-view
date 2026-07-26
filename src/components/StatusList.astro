@@ -1,0 +1,73 @@
+---
+import { getCollection } from 'astro:content';
+import { statusSlug } from '../lib/status';
+
+const posts = await getCollection('posts');
+const groups = new Map<string, { label: string; count: number }>();
+for (const post of posts) {
+  const status = post.data.status;
+  if (!status) continue;
+  const slug = statusSlug(status);
+  const group = groups.get(slug);
+  if (group) group.count += 1;
+  else groups.set(slug, { label: status, count: 1 });
+}
+const statuses = [...groups.entries()]
+  .map(([slug, { label, count }]) => ({ slug, label, count }))
+  .sort((a, b) => b.count - a.count || a.slug.localeCompare(b.slug));
+---
+
+<nav class="status-list">
+  <h2>ステータス</h2>
+  {statuses.length === 0 ? (
+    <p class="empty">ステータスはまだありません</p>
+  ) : (
+    <ul>
+      {statuses.map(({ slug, label, count }) => (
+        <li>
+          <a href={`/status/${slug}/`}>{label}</a>
+          <span class="count">{count}</span>
+        </li>
+      ))}
+    </ul>
+  )}
+</nav>
+
+<style>
+  .status-list {
+    font-size: 0.9rem;
+  }
+  h2 {
+    margin: 0 0 0.8rem;
+    font-size: 1rem;
+    color: var(--muted-color);
+  }
+  .empty {
+    color: var(--muted-color);
+  }
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  li {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+  a {
+    color: var(--link-color);
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  .count {
+    color: var(--muted-color);
+    font-size: 0.8rem;
+  }
+</style>

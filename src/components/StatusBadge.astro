@@ -1,0 +1,27 @@
+---
+import { statusSlug } from '../lib/status';
+
+interface Props {
+  status: string;
+}
+
+const { status } = Astro.props;
+---
+
+<a class="status-badge" href={`/status/${statusSlug(status)}/`}>{status}</a>
+
+<style>
+  .status-badge {
+    display: inline-block;
+    padding: 0.1rem 0.6rem;
+    border-radius: 999px;
+    border: 1px solid var(--border-color);
+    color: var(--muted-color);
+    font-size: 0.8rem;
+    text-decoration: none;
+  }
+  .status-badge:hover {
+    color: var(--link-color);
+    border-color: var(--link-color);
+  }
+</style>
